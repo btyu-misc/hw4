@@ -3,7 +3,6 @@
 #include "equal-paths.h"
 using namespace std;
 
-
 Node* a;
 Node* b;
 Node* c;

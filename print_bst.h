@@ -11,7 +11,7 @@
 // Version 1.2
 
 // maximum depth of tree to actually print.
-#define PPBST_MAX_HEIGHT 6
+#define PPBST_MAX_HEIGHT 7
 
 // Returns the node's distance from the given root.
 // 1 means that it is the root.

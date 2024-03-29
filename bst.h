@@ -211,7 +211,6 @@ public:
     {
     public:
         iterator();
-
         std::pair<const Key,Value>& operator*() const;
         std::pair<const Key,Value>* operator->() const;
 
@@ -221,8 +220,9 @@ public:
         iterator& operator++();
 
     protected:
-        friend class BinarySearchTree<Key, Value>;
         iterator(Node<Key,Value>* ptr);
+        friend class BinarySearchTree<Key, Value>;
+        //iterator(Node<Key,Value>* ptr);
         Node<Key, Value> *current_;
     };
 
@@ -440,6 +440,7 @@ template<class Key, class Value>
 typename BinarySearchTree<Key, Value>::iterator
 BinarySearchTree<Key, Value>::find(const Key & k) const
 {
+    //std::cout << "init find" << std::endl;
     Node<Key, Value> *curr = internalFind(k);
     BinarySearchTree<Key, Value>::iterator it(curr);
     return it;
@@ -511,8 +512,8 @@ void BinarySearchTree<Key, Value>::insert(const std::pair<const Key, Value> &key
             else cur = cur->getRight();
         }
         else { //equal
-            if (cur == NULL) throw std::overflow_error("cur is bad");
-            if (in == NULL) throw std::overflow_error("in is bad");
+            //if (cur == NULL) throw std::overflow_error("cur is bad");
+            //if (in == NULL) throw std::overflow_error("in is bad");
             //std::cout << cur->getValue() << std::endl; //<< " edited to " << keyValuePair.second <<  ". Parent is " << cur->getParent()->getValue() << std::endl;
             cur->setValue(in->getValue());
             delete in;
@@ -520,7 +521,6 @@ void BinarySearchTree<Key, Value>::insert(const std::pair<const Key, Value> &key
             //bruh = true;
         }
     }
-    //print();
 }
 
 
@@ -540,8 +540,9 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     else if (rem->getParent() == NULL && rem->getLeft() == NULL && rem->getRight() == NULL) { //root case
         delete rem;
         root_ = NULL;
+        BinarySearchTree<Key, Value>::root_ = NULL;
     }
-    else if (rem->getLeft() == NULL && rem->getRight() == NULL) { //leaf node
+    else if (rem->getLeft() == NULL && rem->getRight() == NULL) {
         if (rem->getParent()->getLeft() == rem) {
             //std::cout << "left leaf node deleted" << std::endl;
             rem->getParent()->setLeft(NULL);
@@ -553,6 +554,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
         if (rem->getParent() == NULL) {
             rem->getRight()->setParent(NULL);
             root_ = rem->getRight();
+            BinarySearchTree<Key, Value>::root_ = rem->getRight();
         }
         else if (rem->getParent()->getLeft() == rem) {
             rem->getParent()->setLeft(rem->getRight());
@@ -568,6 +570,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
         if (rem->getParent() == NULL) {
             rem->getLeft()->setParent(NULL);
             root_ = rem->getLeft();
+            BinarySearchTree<Key, Value>::root_ = rem->getLeft();
         }
         else if (rem->getParent()->getLeft() == rem) {
             rem->getParent()->setLeft(rem->getLeft());
@@ -599,6 +602,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
             if (rem->getParent() == NULL) {
                 rem->getRight()->setParent(NULL);
                 root_ = rem->getRight();
+                BinarySearchTree<Key, Value>::root_ = rem->getRight();
             }
             else if (rem->getParent()->getLeft() == rem) {
                 rem->getParent()->setLeft(rem->getRight());
@@ -615,6 +619,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
             if (rem->getParent() == NULL) {
                 rem->getLeft()->setParent(NULL);
                 root_ = rem->getLeft();
+                BinarySearchTree<Key, Value>::root_ = rem->getLeft();
             }
             else if (rem->getParent()->getLeft() == rem) {
                 rem->getParent()->setLeft(rem->getLeft());
